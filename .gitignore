@@ -1,0 +1,5 @@
+.ipynb_checkpoints/
+__pycache__/
+.idea/
+/Regression/TensorFlow/Linear regression-Copy1.ipynb
+/Regression/TensorFlow/auto-mpg.data
