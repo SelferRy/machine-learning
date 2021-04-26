@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def init_param_he(layers_dims):
     parameters = {}
@@ -9,13 +10,17 @@ def init_param_he(layers_dims):
     return parameters
 
 
-def compute_cost(X, y, parameters):
-    W = parameters["W1"]
-    b = paraneters["b1"]
+def compute_cost(y_hat, y):
+    """
+    Compute Mean Square Error (MSE).
+    Args:
+        y_hat: our hypothesis after forward_prop
+        y: labels-vector
 
-    y_hat = np.dot(X, W) + b
-    J = 1/(2*m) * np.sum(np.square(y_hat - y))
-    return J
+    Returns:
+    J: cost value of MSE loss function.
+    """
+    return 1/(2*m) * np.sum(np.square(y_hat - y))
 
 
 def init_adam(parameters):
@@ -32,7 +37,7 @@ def init_adam(parameters):
     return v, s
 
 
-def adam(parameters, grads, v, s, t, learning_rate = 0.01,
+def adam_optimizer(parameters, grads, v, s, t, learning_rate = 0.01,
          beta1 = 0.9, beta2 = 0.999, epsilon = 1e-8):
     L = len(parameters) // 2
     v_corrected = {}
@@ -50,3 +55,65 @@ def adam(parameters, grads, v, s, t, learning_rate = 0.01,
             parameters[f"{Wb}{l}"] /= np.sqrt(s_corrected[f"{dWb}{l}"]) + epsilon
 
     return parameters, v, s
+
+
+def forward_prop(X, parameters):
+    """
+    Forward propagation small neural network for Linear Regression. 
+    Args:
+        X: feature-vector.
+        parameters: dict with W and b.
+
+    Returns:
+    y_hat (z_ or a_): output layer <=> our hypothesis.
+    """
+    W = parameters["W1"]
+    b = paraneters["b1"]
+    z = np.dot(X, W) + b
+    cache = (z, W, b)
+    return z, cache
+
+
+def backward_prop(X, y, cache):
+    m = X.shape[1]
+    z, W, b = cache
+    dz = 1./m * X.T.dot(X.dot(W + b) - y)
+    return dz
+
+
+def model(X, Y, layers_dims, learning_rate, beta1=0.9, beta2=0.999,
+          epsilon=1e-8, num_epochs=10000, print_cost=True):
+    L = len(layers_dims)
+    costs = []
+    t = 0
+    m = X.shape[1]
+
+    # Initialize parameters
+    parameters = init_param_he(layers_dims)
+    v, s = init_adam(parameters)
+    cost_total = 0
+
+    # Optimization loop
+    for i in range(num_epochs):
+        z, caches = forward_prop(X, parameters)
+        cost_total += compute_cost(z, Y)
+        grads = backward_prop(X, Y, caches)
+        t += 1
+        parameters, v, s = adam_optimizer(parameters, grads, v, s, t,
+                                          learning_rate, beta1, beta2, epsilon)
+
+    cost_avg = cost_total / m
+
+    # Print the cost every 1000 epoch
+    if print_cost and i % 1000 == 0:
+        print(f"Cost after epoch {i}: {cost_avg}")
+    if print_cost and i % 100 == 0:
+        costs.append(cost_avg)
+
+    plt.plot(costs)
+    plt.ylabel('J')
+    plt.xlabel('epochs (per 100)')
+    plt.title(f"learning rate = {learning_rate}")
+    plt.show()
+
+    return parameters
