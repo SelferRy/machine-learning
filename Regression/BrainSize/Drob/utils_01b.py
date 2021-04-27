@@ -107,8 +107,8 @@ def backward_prop(X, y, cache):
     """ In the case it is just gradient. """
     m = X.shape[1]
     z, W, b = cache
-    # import pdb;
-    # pdb.set_trace()
+    import pdb;
+    pdb.set_trace()
     #     print("backprop\nshapes X, W, b, y:\n", X.shape, W.shape, b.shape, y.shape)
 
     dW = 1/m * X.T.dot(X.dot(W.T + b) - y)  # 2
@@ -127,7 +127,7 @@ def model(X, Y, layers_dims, learning_rate=0.1, optimizer="gradient_descent", be
 
     # Initialize parameters
     parameters = init_param_he(layers_dims)
-    # print(parameters["W1"].shape)
+    print(parameters["W1"].shape)
     #     W1, b1 = parameters["W1"], parameters["b1"]
     v, s = init_adam(parameters)
     #     v, s = (adam_params["dW1"], adam_params["db1"]), (adam_params["dW1"], adam_params["db1"])
