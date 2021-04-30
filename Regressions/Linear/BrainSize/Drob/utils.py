@@ -91,7 +91,7 @@ def gradient_descent(parameters, grads, learning_rate=0.01):
 
 def forward_prop(X, theta):
     """
-    Forward propagation small neural network for Linear Regression.
+    Forward propagation small neural network for Linear Regressions.
     Args:
         X: feature-vector.
         parameters: dict with W and b.

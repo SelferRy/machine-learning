@@ -86,7 +86,7 @@ def adam_optimizer(parameters, grads, v, s, t, learning_rate=0.01,
 
 def forward_prop(X, parameters):
     """
-    Forward propagation small neural network for Linear Regression. 
+    Forward propagation small neural network for Linear Regressions.
     Args:
         X: feature-vector.
         parameters: dict with W and b.
@@ -107,12 +107,12 @@ def backward_prop(X, y, cache):
     """ In the case it is just gradient. """
     m = X.shape[1]
     z, W, b = cache
-    import pdb;
-    pdb.set_trace()
+    # import pdb;
+    # pdb.set_trace()
     #     print("backprop\nshapes X, W, b, y:\n", X.shape, W.shape, b.shape, y.shape)
 
-    dW = 1. / m * X.T.dot(X.dot(W.T + b) - y)  # 2
-    db = 1. / m * np.sum((X.dot(W.T + b) - y), keepdims=True)
+    dW = 1/m * X.T.dot(X.dot(W.T + b) - y)  # 2
+    db = 1/m * np.sum((X.dot(W.T + b) - y), keepdims=True)
     #     print("backprop\nshapes dW, db:\n", dW.shape, db.shape)
     gradients = {"dW1": dW.T, "db1": db}
     return gradients
@@ -127,7 +127,7 @@ def model(X, Y, layers_dims, learning_rate=0.1, optimizer="gradient_descent", be
 
     # Initialize parameters
     parameters = init_param_he(layers_dims)
-    print(parameters["W1"].shape)
+    # print(parameters["W1"].shape)
     #     W1, b1 = parameters["W1"], parameters["b1"]
     v, s = init_adam(parameters)
     #     v, s = (adam_params["dW1"], adam_params["db1"]), (adam_params["dW1"], adam_params["db1"])

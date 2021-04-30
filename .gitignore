@@ -1,12 +1,12 @@
 .ipynb_checkpoints/
 __pycache__/
 .idea/
-/Regression/TensorFlow_guide/Linear regression-Copy1.ipynb
-/Regression/TensorFlow_guide/auto-mpg.data
+/Regressions/Linear/TensorFlow_guide/Linear regression-Copy1.ipynb
+/Regressions/Linear/TensorFlow_guide/auto-mpg.data
 copies/
 Drafts/
 old/
 Temp/
 
-/Regression/BrainSize/Drob/metric_bone2d_rost.doc
-/Regression/BrainSize/Drob/metric_cerebrum.doc
+/Regressions/Linear/BrainSize/Drob/metric_bone2d_rost.doc
+/Regressions/Linear/BrainSize/Drob/metric_cerebrum.doc

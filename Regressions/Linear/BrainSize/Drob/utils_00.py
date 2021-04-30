@@ -86,7 +86,7 @@ def adam_optimizer(parameters, grads, v, s, t, learning_rate=0.01,
 
 def forward_prop(X, parameters):
     """
-    Forward propagation small neural network for Linear Regression. 
+    Forward propagation small neural network for Linear Regressions.
     Args:
         X: feature-vector.
         parameters: dict with W and b.
@@ -111,8 +111,8 @@ def backward_prop(X, y, cache):
     pdb.set_trace()
     #     print("backprop\nshapes X, W, b, y:\n", X.shape, W.shape, b.shape, y.shape)
 
-    dW = 1/m * X.T.dot(X.dot(W.T + b) - y)  # 2
-    db = 1/m * np.sum((X.dot(W.T + b) - y), keepdims=True)
+    dW = 1. / m * X.T.dot(X.dot(W.T + b) - y)  # 2
+    db = 1. / m * np.sum((X.dot(W.T + b) - y), keepdims=True)
     #     print("backprop\nshapes dW, db:\n", dW.shape, db.shape)
     gradients = {"dW1": dW.T, "db1": db}
     return gradients
