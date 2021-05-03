@@ -1,9 +1,9 @@
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import pandas as pd
-import numpy as np
+# import numpy as np
 import torch
-
+from torch.utils.data import TensorDataset, DataLoader
 
 # Load data
 boston = load_boston()
@@ -12,7 +12,7 @@ df['Price'] = boston.target
 
 # Normalized
 data = df[df.columns[:-1]]
-deta = data.apply(lambda x: (x - x.mean()) / x.std())
+data = data.apply(lambda x: (x - x.mean()) / x.std())
 data["Price"] = df.Price
 
 # Define features and labels
@@ -24,10 +24,15 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_
 
 # Get torch-tensors
 m = X_train.shape[0]
-X_train = torch.tensor(X_train, dtype=torch.float)
-X_test = torch.tensor(X_test, dtype=torch.float)
-Y_train = torch.tensor(Y_train, dtype=torch.float).view(-1, 1)
-Y_test = torch.tensor(Y_test, dtype=torch.float).view(-1, 1)
+# X_train = torch.tensor(X_train, dtype=torch.float)
+# X_test = torch.tensor(X_test, dtype=torch.float)
+# Y_train = torch.tensor(Y_train, dtype=torch.float).view(-1, 1)
+# Y_test = torch.tensor(Y_test, dtype=torch.float).view(-1, 1)
+X_train = torch.FloatTensor(X_train)
+X_test = torch.FloatTensor(X_test)
+Y_train = torch.FloatTensor(Y_train).view(-1, 1)
+Y_test = torch.FloatTensor(Y_test).view(-1, 1)
+
 
 # Define Neural Network
 n = X_train.shape[1]
@@ -38,8 +43,8 @@ torch.nn.init.normal_(net[0].weight, mean=0, std=0.1)
 torch.nn.init.constant_(net[0].bias, val=0)
 
 # Union X_train and Y_train to datasets
-datasets = torch.utils.data.TensorDataset(X_train, Y_train)
-train_iter = torch.utils.data.DataLoader(datasets, batch_size=10, shuffle=True)
+datasets = TensorDataset(X_train, Y_train)
+train_iter = DataLoader(datasets, batch_size=10, shuffle=True)
 
 loss = torch.nn.MSELoss()
 
