@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 
 def init_param_he(layers_dims):
     parameters = {}
-    L = len(layers_dims) - 1
-    for l in range(1, L + 1):
-        parameters[f"W{l}"] = np.random.randn(layers_dims[l], layers_dims[l - 1]) * np.sqrt(2. / layers_dims[l - 1])
-        parameters[f"b{l}"] = np.zeros((layers_dims[l], 1))
+    # L = len(layers_dims) - 1
+    # for l in range(1, L + 1):
+    parameters[f"W{l}"] = np.random.randn(layers_dims[l], layers_dims[l - 1]) * np.sqrt(2. / layers_dims[l - 1])
+    parameters[f"b{l}"] = np.zeros((layers_dims[l], 1))
     return parameters
 
 
@@ -28,22 +28,22 @@ def compute_cost(y_hat, y):
 
 
 def init_adam(parameters):
-    L = len(parameters) // 2
+    # L = len(parameters) // 2
     v = {}
     s = {}
 
     # Initialize v, s. Input: "parameters". Outputs: "v, s".
-    for layer in range(L):
-        l = layer + 1
-        for dWb, Wb in zip(["dW", "db"], ["W", "b"]):
-            v[f"{dWb}{l}"] = np.zeros(parameters[f"{Wb}{l}"].shape)
-            s[f"{dWb}{l}"] = np.zeros(parameters[f"{Wb}{l}"].shape)
+    # for layer in range(L):
+    #     l = layer + 1
+    for key, dkey in zip(["W", "b"], ["dW", "db"]):
+        v[f"{dkey}"] = np.zeros(parameters[f"{key}"].shape)  # v[f"{dkey}{l}"] = np.zeros(parameters[f"{key}{l}"].shape)
+        s[f"{dkey}"] = np.zeros(parameters[f"{key}"].shape)  # s[f"{dkey}{l}"] = np.zeros(parameters[f"{key}{l}"].shape)
     return v, s
 
 
 def gradient_descent(parameters, grads, learning_rate=0.01):
-    for Wb, dWb in zip(parameters, grads):
-        parameters[Wb] -= learning_rate * grads[dWb]
+    for key, dkey in zip(parameters, grads):
+        parameters[key] -= learning_rate * grads[dkey]
     #     parameters["W1"] -= learning_rate * grads["dW1"]
     #     parameters["b1"] -= learning_rate * grads["db1"]
     return parameters
@@ -68,16 +68,16 @@ def adam_optimizer(parameters, grads, v, s, t, learning_rate=0.01,
     #             parameters[f"{Wb}{l}"] /= np.sqrt(s_corrected[f"{dWb}{l}"]) + epsilon
 
     if mod == "MSE" and L == 1:
-        for dWb, Wb in zip(["dW1", "db1"], ["W1", "b1"]):
+        for key, dkey in zip(["W", "b"], ["dW", "db"]):
             #             print("adam_opt\nshapes: v, grads", v[dWb].shape, grads[dWb].shape)
-            v[dWb] = beta1 * v[dWb] + grads[dWb]
+            v[dkey] = beta1 * v[dkey] + grads[dkey]
             #             print("adam_optimizer\n", f"v[{dWb}] = {v[dWb]}", f"grads[{dWb}] = {grads[dWb]}")
-            v_corrected[dWb] = v[dWb] / (1 - np.power(beta1, t))
+            s[dkey] = beta2 * s[dkey] + (1 - beta2) * np.square(grads[dkey])
             #             print("adam_optimizer\nv_corrected", v_corrected[dWb])
-            s[dWb] = beta2 * s[dWb] + (1 - beta2) * np.square(grads[dWb])
+            v_corrected[dkey] = v[dkey] / (1 - np.power(beta1, t))
             #             print("adam_optimizer\ns_corrected", s[dWb])
-            s_corrected[dWb] = s[dWb] / (1 - np.power(beta2, t))
-            parameters[Wb] -= learning_rate * v_corrected[dWb] / (np.sqrt(s_corrected[dWb]) + epsilon)
+            s_corrected[dkey] = s[dkey] / (1 - np.power(beta2, t))
+            parameters[key] -= learning_rate * v_corrected[dkey] / (np.sqrt(s_corrected[dkey]) + epsilon)
     #             print("adam_optimizer\ns_corrected", s_corrected[dWb])
     #             parameters[Wb] /= np.sqrt(s_corrected[dWb]) + epsilon
 
@@ -123,11 +123,11 @@ def model(X, Y, layers_dims, learning_rate=0.1, optimizer="gradient_descent", be
     # L = len(layers_dims)
     costs = []
     t = 0
-    m = X.shape[1]
+    m = X.shape[0]
 
     # Initialize parameters
     parameters = init_param_he(layers_dims)
-    print(parameters["W1"].shape)
+    print(parameters["W"].shape)
     #     W1, b1 = parameters["W1"], parameters["b1"]
     v, s = init_adam(parameters)
     #     v, s = (adam_params["dW1"], adam_params["db1"]), (adam_params["dW1"], adam_params["db1"])
