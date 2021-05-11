@@ -3,9 +3,9 @@
 In this repository will be contained foundation algorithms
  of Machine Learning.
 
-[**Linear regression:**](./Regressions/Linear)
-- [Brain sizes:](./Regressions/Linear/BrainSize/)
-  1. [*Homo sapiens dataset*](./Regressions/Linear/BrainSize/homo_sapiens)
-  2. [*Primates dataset*](./Regressions/Linear/BrainSize/primates)
-- [PyTorch guides and experiments](./Regressions/Linear/PyTorch_guide/)
-- [TensorFlow guides and experiments](./Regressions/Linear/TensorFlow_guide/)
+[**Linear regression:**](regressions/linear)
+- [Brain sizes:](regressions/linear/brainsize)
+  1. [*Homo sapiens dataset*](./regressions/linear/brainsize/homo_sapiens)
+  2. [*Primates dataset*](./regressions/linear/brainsize/primates)
+- [PyTorch guides and experiments](regressions/linear/pytorch_guide)
+- [TensorFlow guides and experiments](regressions/linear/tensorflow_guide)

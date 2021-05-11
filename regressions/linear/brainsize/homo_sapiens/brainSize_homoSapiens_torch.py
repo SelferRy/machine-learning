@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-data = pd.read_csv("./headbrain.csv")  # ../BrainSize/homo_sapiens/
+data = pd.read_csv("./headbrain.csv")  # ../brainsize/homo_sapiens/
 data.head()
 
 # Visualize data
