@@ -1,5 +1,3 @@
-.ipynb_checkpoints/
-__pycache__/
 .idea/
 /regressions/linear/tensorflow_guide/Linear regression-Copy1.ipynb
 /regressions/linear/tensorflow_guide/auto-mpg.data
@@ -11,6 +9,7 @@ Temp/
 /regressions/linear/brainsize/Drob/metric_bone2d_rost.doc
 /regressions/linear/brainsize/Drob/metric_cerebrum.doc
 /regressions/linear/drob/
+/regressions/linear/brainsize/Linear_regression_from_scratch.ipynb
 
 /regressions/logistic/mnist/data/MNIST/
 
